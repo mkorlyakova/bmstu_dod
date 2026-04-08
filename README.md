@@ -4,7 +4,9 @@ bmstu presentation
 
 ## Features
 numpy - векторные операции
+
 onnxruntime - использование нейросети
+
 openCV - визуализация
 
 # install
