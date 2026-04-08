@@ -9,7 +9,6 @@ import cv2
 import numpy as np
 import onnxruntime as ort
 
-
 parser = argparse.ArgumentParser(description="Карта глубины")
 
 # Добавляем аргументы
@@ -167,7 +166,7 @@ if MODE == "video":
 
             # Инференс с пропуском
             if (frame_cnt - 1) % (SKIP_FRAMES + 1) == 0:
-                cached_boxes, cached_depth_vis = run_inference(frame, w, h)
+                _, cached_depth_vis = run_inference(frame, w, h)
 
             # FPS
             elapsed = time.time() - start_time
@@ -176,30 +175,6 @@ if MODE == "video":
             # Отрисовка
             if SHOW_DISPLAY or ENABLE_RECORDING:
                 draw_img = frame.copy()
-                if ENABLE_YOLO:
-                    for i in range(len(cached_boxes)):
-                        bx, by, bw, bh = cached_boxes[i]
-
-                        # --- РАСЧЕТ ЦЕНТРА ---
-                        cx = int(bx + bw / 2)
-                        cy = int(by + bh / 2)
-
-                        # Рисуем прямоугольник
-                        cv2.rectangle(
-                            draw_img, (bx, by), (bx + bw, by + bh), (0, 0, 255), 2
-                        )
-                        # Рисуем центр (красная точка)
-                        cv2.circle(draw_img, (cx, cy), 4, (0, 0, 255), -1)
-                        # Пишем координаты рядом с объектом
-                        cv2.putText(
-                            draw_img,
-                            "({}, {})".format(cx, cy),
-                            (bx, by - 5),
-                            cv2.FONT_HERSHEY_SIMPLEX,
-                            0.5,
-                            (0, 0, 255),
-                            1,
-                        )
 
                 combined = np.hstack((draw_img, cached_depth_vis))
                 cv2.putText(

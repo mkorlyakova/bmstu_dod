@@ -53,8 +53,8 @@ ENABLE_DEPTH = True  # Глубина
 ENABLE_POINT = True  # False  # точки
 
 # --- НАСТРОЙКИ КАМЕРЫ (Только для режима video/camera) ---
-CAM_WIDTH = 320
-CAM_HEIGHT = 240
+CAM_WIDTH = 160
+CAM_HEIGHT = 120
 SKIP_FRAMES = 2
 
 # ==========================================
@@ -309,6 +309,10 @@ if MODE == "video":
                 if ENABLE_POINT:
                     rez = crop_faces(frame, w, h)
                     # print(rez)
+                    if rez[0] is not None:
+                        score = rez[0][0]
+                    else:
+                        score = 0
                     if rez[1] is not None:
                         print("================")
                         # print(rez[1])
@@ -341,6 +345,15 @@ if MODE == "video":
                                 draw_img,
                                 "({}, {})".format(cx, cy),
                                 (int(bx1 * w), int(by1 * h) - 5),
+                                cv2.FONT_HERSHEY_SIMPLEX,
+                                0.5,
+                                (0, 0, 255),
+                                1,
+                            )
+                            cv2.putText(
+                                draw_img,
+                                "{}".format(np.round([score], 2)),
+                                (int(bx1 * w), int(by2 * h) + 15),
                                 cv2.FONT_HERSHEY_SIMPLEX,
                                 0.5,
                                 (0, 0, 255),
