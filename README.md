@@ -9,7 +9,7 @@ onnxruntime - использование нейросети
 
 openCV - визуализация
 
-# install
+## install
 
 1. **Clone the repository:**
 
